@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
+using System.Threading;
+
 namespace MES_Controls.MES_Protocol
 {
     public class Client_Hash
@@ -12,6 +14,9 @@ namespace MES_Controls.MES_Protocol
         private int client_Port;
         private string client_name;
         private Socket socket;
+        private CancellationTokenSource tokenSource;
+        private int currentCount;
+        private bool isRead = true;
 
         public string Client_IP
         {
@@ -32,6 +37,24 @@ namespace MES_Controls.MES_Protocol
         {
             get { return socket; }
             set { this.socket = value; }
+        }
+        public CancellationTokenSource TokenSource
+        {
+            get { return tokenSource; }
+            set { this.tokenSource = value; }
+        }
+        public int CurrentCount
+        {
+            get
+            {
+                return currentCount;
+            }
+            set { currentCount = value; }
+        }
+        public bool IsRead
+        {
+            get { return isRead; }
+            set { isRead = value; }
         }
     }
 }

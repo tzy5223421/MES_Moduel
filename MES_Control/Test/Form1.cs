@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MES_Controls.MES_Protocol;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,11 +13,12 @@ namespace Test
 {
     public partial class Form1 : Form
     {
-        MES_Controls.MES_Protocol.MES_Server server;
+        MES_Controls.MES_Protocol.MES_TCPServer server;
+        MES_TCPClient client;
         public Form1()
         {
             InitializeComponent();
-            server = new MES_Controls.MES_Protocol.MES_Server("127.0.0.1", 5000);
+            server = new MES_Controls.MES_Protocol.MES_TCPServer("127.0.0.1", 5000, true);
             server.ProtocolPackEvent += Server_ProtocolPackEvent;
             server.ProtocolClientEvent += Server_ProtocolClientEvent;
         }
@@ -44,7 +46,14 @@ namespace Test
 
         private void button1_Click(object sender, EventArgs e)
         {
+            client = new MES_TCPClient("127.0.0.1", 5000);
+            client.ClientConnectToServer();
+        }
 
+        private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ChatFrm cf = new ChatFrm(server, this.listBox1.Text.ToString());
+            cf.Show();
         }
     }
 }
